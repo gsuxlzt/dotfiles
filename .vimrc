@@ -12,16 +12,17 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ryanoasis/vim-devicons'
-Plug 'preservim/NERDTree'
 Plug 'airblade/vim-gitgutter'
+Plug 'preservim/NERDTree'
 Plug 'xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-
+Plug 'preservim/nerdcommenter'
 call plug#end()
 
 "dev icons config
@@ -152,3 +153,6 @@ augroup end
 " Keybindings
 nnoremap <C-s> :w<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
+"++ will be binded to cmd+/ for toggling comments.
+vmap ++ <plug>NERDCommenterToggle
+nmap ++ <plug>NERDCommenterToggle
