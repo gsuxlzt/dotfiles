@@ -19,10 +19,12 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'jiangmiao/auto-pairs'
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'preservim/nerdcommenter'
+Plug 'tpope/vim-surround'
 call plug#end()
 
 "dev icons config
