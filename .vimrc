@@ -99,6 +99,9 @@ function! SyncTree()
   endif
 endfunction
 
+# highlight open file in Nertree
+autocmd BufEnter * call SyncTree()
+
 " color scheme config
 syntax on
 set t_Co=256
