@@ -32,7 +32,6 @@ set encoding=UTF-8
 set guifont=Fira\ Code:h12
 
 " fzf settings
-set rtp+=/usr/local/opt/fzf
 let g:fzf_preview_window = 'right:50%'
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6  }  }
 let g:fzf_colors =
@@ -49,6 +48,15 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+
+" search ouside current director
+function! s:append_dir_with_fzf(line)
+  call fzf#run(fzf#wrap({
+    \ 'options': ['--prompt', a:line.'> '],
+    \ 'source': 'git ls-files $(git rev-parse --show-toplevel) | xargs -n 1 dirname | uniq',
+    \ 'sink': {line -> feedkeys("\<esc>:".a:line.line, 'n')}}))
+  return ''
+endfunction
 
 "Nerdtree configs
 let g:NERDTreeWinPos = 'right'
@@ -315,3 +323,7 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 "++ will be binded to cmd+/ for toggling comments.
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
+
+" map fzf search
+nmap <silent> sf :Files<cr>
+
