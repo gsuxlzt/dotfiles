@@ -99,7 +99,7 @@ function! SyncTree()
   endif
 endfunction
 
-# highlight open file in Nertree
+" highlight open file
 autocmd BufEnter * call SyncTree()
 
 " color scheme config
