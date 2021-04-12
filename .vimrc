@@ -60,8 +60,12 @@ endfunction
 
 "Nerdtree configs
 let g:NERDTreeWinPos = 'right'
+
 " close vim if only nerdtree is open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Prevent Tab on NERDTree (breaks everything otherwise)
+autocmd FileType nerdtree noremap <buffer> <Tab> <nop>
 
 " Set default arrows in NerdTree
 let g:NERDTreeDirArrowExpandable = '▸'
@@ -92,23 +96,24 @@ let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 "Ignore node_modules
 let g:NERDTreeIgnore = ['^node_modules$']
 
-" sync open file with NERDTree
-" " Check if NERDTree is open or active
-function! IsNERDTreeOpen()
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+" Remap opening in split
+let g:NERDTreeMapOpenSplit = '-'
+let g:NERDTreeMapOpenVSplit = '<bar>'
+" calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
+function! s:syncTree()
+  let s:curwnum = winnr()
+  NERDTreeFind
+  exec s:curwnum . "wincmd w"
 endfunction
 
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-    wincmd p
+function! s:syncTreeIf()
+  if (winnr("$") > 1)
+    call s:syncTree()
   endif
 endfunction
-
-" highlight open file
-autocmd BufEnter * call SyncTree()
+  
+" Shows NERDTree on start and synchronizes the tree with opened file when switching between opened windows
+autocmd BufEnter * call s:syncTreeIf()
 
 " color scheme config
 syntax on
@@ -139,8 +144,10 @@ set incsearch "search characters as they are typed
 set hlsearch "highlight searched characters
 
 "Folding options
-set foldenable
-set foldlevelstart=7 "will automatically fold blocks of code 7 levels deep
+set foldmethod=syntax
+set foldcolumn=1
+let javaScript_fold=1
+set foldlevelstart=10 "will automatically fold blocks of code 7 levels deep
 
 " coc config
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
@@ -239,7 +246,8 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
+" Remap for rename current word
+nmap <F2> <Plug>(coc-rename)
 
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
@@ -320,6 +328,7 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 " Keybindings
 nnoremap <C-s> :w<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
+autocmd FileType nerdtree noremap <buffer> \a <nop>
 "++ will be binded to cmd+/ for toggling comments.
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
