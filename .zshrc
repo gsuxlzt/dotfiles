@@ -117,7 +117,32 @@ export TERM=xterm-256color
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # fd as default source for fzf
-export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# point nvm folder
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+
+# use default node version
+nvm alias default 12.22.1
+
+autoload -U add-zsh-hook
+
+# check if there is a node version available, otherwise use default
+load-nvmrc() {
+   if [[ -f .nvmrc && -r .nvmrc ]]; then
+      nvm use
+   elif [[ $(nvm version) != $(nvm version default)  ]]; then
+      echo "Reverting to nvm default version"
+      nvm use default
+   fi
+}
+
+# command will execute every folder change
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
+# Postgres
+export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
