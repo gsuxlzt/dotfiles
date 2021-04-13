@@ -149,3 +149,4 @@ export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 
 # Aliases
 alias redis='redis-server /usr/local/etc/redis.conf'
+alias t_reattach='tmux attach-session -t development'
