@@ -146,3 +146,6 @@ load-nvmrc
 
 # Postgres
 export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
+
+# Aliases
+alias redis='redis-server /usr/local/etc/redis.conf'

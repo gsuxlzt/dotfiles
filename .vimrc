@@ -13,6 +13,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
+Plug 'APZelos/blamer.nvim'
 Plug 'preservim/NERDTree'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -324,10 +325,15 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
+" git blamer configs
+" dont show on insert mode
+let g:blamer_enabled = 1
+let g:blamer_show_in_insert_modes = 0
 
 " Keybindings
 nnoremap <C-s> :w<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-b> :BlamerToggle<CR>
 autocmd FileType nerdtree noremap <buffer> \a <nop>
 "++ will be binded to cmd+/ for toggling comments.
 vmap ++ <plug>NERDCommenterToggle
