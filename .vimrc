@@ -330,6 +330,18 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 let g:blamer_enabled = 1
 let g:blamer_show_in_insert_modes = 0
 
+" function for FZF
+function! s:find_files()
+    let git_dir = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+    if git_dir != ''
+        execute 'GFiles' git_dir
+    else
+        execute 'Files'
+    endif
+endfunction
+
+command! ProjectFiles execute s:find_files()
+
 " Keybindings
 nnoremap <C-s> :w<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
@@ -340,5 +352,5 @@ vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
 
 " map fzf search
-nmap <silent> sf :Files<cr>
-
+nmap <silent> sf :ProjectFiles<CR>
+nmap <silent> ss :Rg<cr>
